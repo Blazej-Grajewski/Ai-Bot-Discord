@@ -47,7 +47,7 @@ A self-hosted Discord bot that integrates with [Ollama](https://ollama.com) to r
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/discord-ollama-bot.git
+https://github.com/Blazej-Grajewski/Ai-Bot-Discord.git
 cd discord-ollama-bot
 ```
 
