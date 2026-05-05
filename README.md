@@ -1,4 +1,4 @@
-# 🤖 discord-ollama-bot
+# 🤖 AI Bot Discord
 
 A self-hosted Discord bot that integrates with [Ollama](https://ollama.com) to run a local LLM (Llama 3.2) directly on your machine. No external AI APIs, no cloud dependencies — everything stays local.
 
@@ -8,6 +8,9 @@ A self-hosted Discord bot that integrates with [Ollama](https://ollama.com) to r
 
 - **Slash command support** via Discord.js v14
 - **Local LLM responses** powered by Ollama (Llama 3.2)
+- **Per-user conversation history** — each user has their own separate chat context
+- **Memory capped at 50 messages** per user to prevent memory bloat
+- **System prompt** to keep the AI focused and context-aware
 - **No external AI services** — fully offline-capable once set up
 - **Modular command handler** — drop new commands into `/commands` and they load automatically
 - **Clean service layer** — Ollama logic is decoupled from Discord logic
@@ -19,16 +22,17 @@ A self-hosted Discord bot that integrates with [Ollama](https://ollama.com) to r
 ```
 .
 ├── scripts/
-│   └── deploy-commands.js   # Registers slash commands with Discord
+│   └── deploy-commands.js     # Registers slash commands with Discord
 └── src/
-    ├── bot.js               # Entry point — creates the client, loads commands, listens for events
+    ├── bot.js                 # Entry point — creates the client, loads commands, listens for events
     ├── commands/
-    │   ├── ping.js          # /ping — health check command
-    │   └── ask.js           # /ask — sends a prompt to Ollama and replies
+    │   ├── ping.js            # /ping — health check command
+    │   ├── ask.js             # /ask — sends a prompt to Ollama and replies
+    │   └── reset.js           # /reset — clears your personal conversation history
     ├── handlers/
     │   └── commandHandler.js  # Dynamically loads all commands from /commands
     └── services/
-        └── ollama.js        # Handles communication with the local Ollama API
+        └── ollama.js          # Handles communication with the local Ollama API
 ```
 
 ---
@@ -47,8 +51,8 @@ A self-hosted Discord bot that integrates with [Ollama](https://ollama.com) to r
 ### 1. Clone the repository
 
 ```bash
-https://github.com/Blazej-Grajewski/Ai-Bot-Discord.git
-cd discord-ollama-bot
+git clone https://github.com/Blazej-Grajewski/Ai-Bot-Discord.git
+cd Ai-Bot-Discord
 ```
 
 ### 2. Install dependencies
@@ -75,6 +79,8 @@ OLLAMA_MODEL=llama3.2
 | `GUILD_ID` | The ID of the Discord server to deploy commands to |
 | `OLLAMA_MODEL` | The Ollama model to use (default: `llama3.2`) |
 
+> ⚠️ Never commit your `.env` file — it's already in `.gitignore`
+
 ### 4. Make sure Ollama is running
 
 ```bash
@@ -84,23 +90,30 @@ ollama serve
 ### 5. Deploy slash commands
 
 ```bash
-node scripts/deploy-commands.js
+npm run deploy
 ```
 
 ### 6. Start the bot
 
 ```bash
-node src/bot.js
+npm start
 ```
 
 ---
 
-## Usage
+## Commands
 
 | Command | Description |
 |---|---|
 | `/ping` | Checks if the bot is alive — responds with `Pong!` |
 | `/ask <prompt>` | Sends your prompt to Ollama and returns the model's response |
+| `/reset` | Clears your personal conversation history with the AI |
+
+---
+
+## How conversation history works
+
+Each Discord user gets their own separate conversation history stored in memory. The bot remembers up to 50 messages per user, so the AI can refer back to earlier parts of your conversation. History is reset either manually with `/reset` or automatically when the bot restarts.
 
 ---
 

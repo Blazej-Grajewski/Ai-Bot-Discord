@@ -1,17 +1,22 @@
 {
   "name": "ai-bot-discord",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A self-hosted Discord bot powered by Ollama (Llama 3.2) running locally.",
   "main": "src/bot.js",
   "scripts": {
     "start": "node src/bot.js",
     "deploy": "node scripts/deploy-commands.js"
   },
-  "keywords": ["discord", "ollama", "llama", "bot"],
+  "keywords": [
+    "discord",
+    "ollama",
+    "llama",
+    "bot"
+  ],
   "author": "Blazej-Grajewski",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.26.3",
+    "discord.js": "^14.26.4",
     "dotenv": "^17.4.2"
   }
 }
